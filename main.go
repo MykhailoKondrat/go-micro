@@ -12,12 +12,13 @@ import (
 
 func main() {
 	l := log.New(os.Stdout, "propduct-api", log.LstdFlags)
-	hh := handlers.NewHello(l)
-	gb := handlers.NewGoodBuy(l)
+	//hh := handlers.NewHello(l)
+	//gb := handlers.NewGoodBuy(l)
+	ph := handlers.NewProducts(l)
 	sm := http.NewServeMux()
-
-	sm.Handle("/", hh)
-	sm.Handle("/buy", gb)
+	sm.Handle("/", ph)
+	//sm.Handle("/", hh)
+	//sm.Handle("/buy", gb)
 
 	s := &http.Server{
 		Addr:         ":9090",
