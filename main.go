@@ -42,37 +42,4 @@ func main() {
 	l.Println("Received terminate, graceful shutdown", sig)
 	tc, _ := context.WithTimeout(context.Background(), 30*time.Second)
 	s.Shutdown(tc)
-
-	//myChan := make(chan int)
-	////defer close(myChan)
-	////
-	////fmt.Println(<-myChan)
-	//wg := new(sync.WaitGroup)
-	//wg.Add(3)
-	//go increaseByOne(myChan, wg)
-	//go increaseByOne(myChan, wg)
-	//go printChan(myChan, wg)
-	//
-	//wg.Wait()
-	//
-	//fmt.Println("program is over")
-	////go increaseByOne(myChan, wg)
-	////fmt.Println(x)
 }
-
-//func increaseByOne(c chan int, wg *sync.WaitGroup) {
-//	defer wg.Done()
-//	fmt.Println("Running increase routine")
-//	sum := 0
-//	for i := 0; i < 4; i++ {
-//		sum += i
-//	}
-//	c <- sum
-//}
-//func printChan(c chan int, wg *sync.WaitGroup) {
-//	defer wg.Done()
-//
-//	fmt.Println("Running print routine")
-//	x, y := <-c, <-c
-//	fmt.Println(x, y)
-//}

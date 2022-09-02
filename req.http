@@ -1,1 +1,21 @@
+### Get all products
 GET http://localhost:{{port}}/
+###  Post new product
+POST http://localhost:{{port}}/
+Content-Type: application/json
+
+{
+  "name": "mycoffe",
+  "description": "desc",
+  "price": 44.11
+}
+
+### Update product by id
+PUT http://localhost:{{port}}/200
+Content-Type: application/json
+
+{
+  "name": "upda",
+  "description": "upda",
+  "price": 44.11
+}
