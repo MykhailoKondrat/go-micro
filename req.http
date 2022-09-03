@@ -11,7 +11,7 @@ Content-Type: application/json
 }
 
 ### Update product by id
-PUT http://localhost:{{port}}/200
+PUT http://localhost:{{port}}/1
 Content-Type: application/json
 
 {

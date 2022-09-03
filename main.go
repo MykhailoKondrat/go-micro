@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"github.com/MykhailoKondrat/go-micro/handlers"
+	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"os"
@@ -15,8 +16,19 @@ func main() {
 	//hh := handlers.NewHello(l)
 	//gb := handlers.NewGoodBuy(l)
 	ph := handlers.NewProducts(l)
-	sm := http.NewServeMux()
-	sm.Handle("/", ph)
+	sm := mux.NewRouter()
+	getRouter := sm.Methods("GET").Subrouter()
+	getRouter.HandleFunc("/", ph.GetProducts)
+
+	putRouter := sm.Methods("PUT").Subrouter()
+	putRouter.HandleFunc("/{id:[0-9]+}", ph.UpdateProduct)
+	putRouter.Use(ph.MiddlewareProductValidation)
+
+	postRouter := sm.Methods("POST").Subrouter()
+	postRouter.HandleFunc("/", ph.AddProduct)
+	postRouter.Use(ph.MiddlewareProductValidation)
+
+	sm.Handle("/products", ph)
 	//sm.Handle("/", hh)
 	//sm.Handle("/buy", gb)
 
