@@ -17,5 +17,6 @@ Content-Type: application/json
 {
   "name": "upda",
   "description": "upda",
-  "price": 44.11
+  "price": 44.11,
+  "sku": "asd-asd-asd"
 }
