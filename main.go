@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"github.com/MykhailoKondrat/go-micro/handlers"
+	"github.com/go-openapi/runtime/middleware"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
@@ -17,10 +18,17 @@ func main() {
 	//gb := handlers.NewGoodBuy(l)
 	ph := handlers.NewProducts(l)
 	sm := mux.NewRouter()
+	ops := middleware.RedocOpts{
+		SpecURL: "./swagger.yaml",
+	}
+	sh := middleware.Redoc(ops, nil)
+
 	getRouter := sm.Methods("GET").Subrouter()
-	getRouter.HandleFunc("/", ph.GetProducts)
+	getRouter.HandleFunc("/products", ph.GetProducts)
+	getRouter.Handle("/docs", sh)
 
 	putRouter := sm.Methods("PUT").Subrouter()
+
 	putRouter.HandleFunc("/{id:[0-9]+}", ph.UpdateProduct)
 	putRouter.Use(ph.MiddlewareProductValidation)
 
@@ -28,9 +36,10 @@ func main() {
 	postRouter.HandleFunc("/", ph.AddProduct)
 	postRouter.Use(ph.MiddlewareProductValidation)
 
-	sm.Handle("/products", ph)
-	//sm.Handle("/", hh)
-	//sm.Handle("/buy", gb)
+	deleteRouter := sm.Methods("DELETE").Subrouter()
+
+	deleteRouter.HandleFunc("/products/{id:[0-9]+}", ph.DeleteProduct)
+	getRouter.Handle("/swagger.yaml", http.FileServer(http.Dir("./")))
 
 	s := &http.Server{
 		Addr:         ":9090",

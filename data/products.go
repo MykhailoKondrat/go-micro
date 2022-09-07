@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+// swagger:model
 type Product struct {
 	ID          int     `json:"id"`
 	Name        string  `json:"name" validate:"required"`
@@ -63,6 +64,13 @@ func UpdateProduct(id int, p *Product) error {
 	productList[pos] = p
 	return nil
 }
+func DeleteProduct(id int) error {
+	err := removeProductById(id, &productList)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 var ErrorProductNotFound = fmt.Errorf("Product not found")
 
@@ -73,6 +81,17 @@ func findProductById(id int) (*Product, int, error) {
 		}
 	}
 	return nil, -1, ErrorProductNotFound
+}
+
+func removeProductById(id int, products *[]*Product) error {
+	_, pos, err := findProductById(id)
+	if err != nil {
+		return err
+	}
+	prod1 := (*products)[:pos]
+	test := append(prod1, (*products)[pos+1:]...)
+	*products = test
+	return nil
 }
 func getNextId() int {
 	lp := productList[len(productList)-1]
