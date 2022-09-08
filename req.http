@@ -23,4 +23,4 @@ Content-Type: application/json
 }
 
 ###  Delete product by id
-DELETE http://localhost:{{port}}/produtcts/2
+DELETE http://localhost:{{port}}/products/2

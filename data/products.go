@@ -88,9 +88,7 @@ func removeProductById(id int, products *[]*Product) error {
 	if err != nil {
 		return err
 	}
-	prod1 := (*products)[:pos]
-	test := append(prod1, (*products)[pos+1:]...)
-	*products = test
+	*products = append((*products)[:pos], (*products)[pos+1:]...)
 	return nil
 }
 func getNextId() int {
